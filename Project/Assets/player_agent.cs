@@ -148,13 +148,13 @@ public class player_agent : Agent
         else if (other.gameObject.CompareTag("rewardzone")) // 리워드존일 경우
         {
             rewardzone_count += 0.1f;
-            SetReward(0.5f* rewardzone_count); // 중간마다 리워드 증가
+            SetReward(0.5f* rewardzone_count); 
             other.gameObject.SetActive(false);
         }
         else if (other.gameObject.CompareTag("goal"))
         {
             float timeBonus = Mathf.Max(0, (maxEpisodeTime - currentEpisodeTime)); //남은 시간 계산
-            SetReward(5.0f + 0.2f * timeBonus); // 보상 + 시간
+            SetReward(5.0f + 0.2f * timeBonus); //도착시 보상(시간 보너스)
             EndEpisode();
 
         }

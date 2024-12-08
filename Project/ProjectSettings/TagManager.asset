@@ -35,6 +35,8 @@ TagManager:
   - pushwall
   - DieZone
   - rewardzone
+  - obstacle
+  - StartDieZone
   layers:
   - Default
   - TransparentFX
@@ -42,7 +44,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Obstacle
   - 
   - invisible
   - 
