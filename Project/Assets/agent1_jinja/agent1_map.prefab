@@ -293,6 +293,7 @@ MonoBehaviour:
   - {fileID: 8977760560092087919}
   - {fileID: 1163437471840664892}
   - {fileID: 1631906123236118692}
+  isActive: 1
 --- !u!54 &5789561130603059078
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -695,7 +696,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5789561132038953291}
   - component: {fileID: 5789561132038953289}
-  - component: {fileID: 5789561132038953288}
   m_Layer: 0
   m_Name: Camera (1)
   m_TagString: Untagged
@@ -761,14 +761,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5789561132038953288
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5789561132038953290}
-  m_Enabled: 1
 --- !u!1 &5789561132402385887
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,7 +865,7 @@ GameObject:
   - component: {fileID: 5789561132692615007}
   m_Layer: 0
   m_Name: goal
-  m_TagString: goal
+  m_TagString: goal_jin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

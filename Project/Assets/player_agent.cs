@@ -16,6 +16,9 @@ public class player_agent : Agent
     //초기화 지점
     public Vector3 startPosition;
     public Vector3 targetPosition;
+
+    public bool isActive = true;
+    public int difficultIndex = 1;
     public override void OnEpisodeBegin()
     {
         // 에피소드 초기화
@@ -25,8 +28,20 @@ public class player_agent : Agent
         rewardzone_count = 1.0f;
     }
 
+    public void Start()
+    {
+        if(!isActive)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     private void Update()
     {
+        if(!isActive)
+        {
+            return;
+        }
         // 시간 초과 체크
         currentEpisodeTime += Time.deltaTime;
         if (currentEpisodeTime >= maxEpisodeTime)
@@ -37,6 +52,10 @@ public class player_agent : Agent
     }
     public override void CollectObservations(VectorSensor sensor)
     {
+        if (!isActive)
+        {
+            return;
+        }
         //에이전트 위치
         sensor.AddObservation(transform.localPosition);
         // 에이전트와 목표 지점 사이의 거리
@@ -62,6 +81,10 @@ public class player_agent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (!isActive)
+        {
+            return;
+        }
         // 행동 수집
         Vector3 move = new Vector3(actions.ContinuousActions[0], 0, actions.ContinuousActions[1]);
         
@@ -140,6 +163,10 @@ public class player_agent : Agent
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!isActive)
+        {
+            return;
+        }
         if (other.gameObject.CompareTag("DieZone")) // 다이존일경우
         {
             SetReward(-1.0f); // 충돌 시 리워드 감소 및 에피소드 종료
@@ -151,10 +178,12 @@ public class player_agent : Agent
             SetReward(0.5f* rewardzone_count); 
             other.gameObject.SetActive(false);
         }
-        else if (other.gameObject.CompareTag("goal"))
+        else if (other.gameObject.CompareTag("goal_push"))
         {
             float timeBonus = Mathf.Max(0, (maxEpisodeTime - currentEpisodeTime)); //남은 시간 계산
             SetReward(5.0f + 0.2f * timeBonus); //도착시 보상(시간 보너스)
+            isActive = false;
+            gameObject.SetActive(false);
             EndEpisode();
 
         }

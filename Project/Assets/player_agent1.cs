@@ -23,9 +23,15 @@ public class player_agent1 : Agent
     public Transform[] emptyPositions; //장애물 배치할 트랜스폼
     private List<GameObject> currentObstacles = new List<GameObject>(); // 생성된 장애물 목록
 
-
+    public bool isActive = true;
+    public int difficultIndex = 1;
+    public bool isCreateObstacle = false;
     public override void OnEpisodeBegin()
     {
+        if(!isActive)
+        {
+            return;
+        }
         // 에피소드 초기화
         transform.localPosition = startPosition;
         target.localPosition = targetPosition;
@@ -34,14 +40,27 @@ public class player_agent1 : Agent
         //obstacle_repatch();
 
         //기존의 장애물 제거
-         foreach (GameObject obstacle in currentObstacles)
+        /* foreach (GameObject obstacle in currentObstacles)
         {
             Destroy(obstacle);
         }
-        currentObstacles.Clear(); // 리스트 초기화
+        currentObstacles.Clear(); // 리스트 초기화*/
 
         // 장애물 생성
-        CreateObstacles();
+        
+    }
+
+    public void Start()
+    {
+        if(isCreateObstacle)
+        {
+            CreateObstacles();
+        }
+        
+        if (!isActive)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
 
@@ -59,6 +78,10 @@ public class player_agent1 : Agent
 
     private void Update()
     {
+        if (!isActive)
+        {
+            return;
+        }
         // 시간 초과 체크
         currentEpisodeTime += Time.deltaTime;
         if (currentEpisodeTime >= maxEpisodeTime)
@@ -70,6 +93,10 @@ public class player_agent1 : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        if (!isActive)
+        {
+            return;
+        }
         // 에이전트 위치
         sensor.AddObservation(transform.localPosition);
         // 에이전트와 목표 지점 사이의 거리
@@ -102,6 +129,10 @@ public class player_agent1 : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (!isActive)
+        {
+            return;
+        }
         // 행동 수집
         Vector3 move = new Vector3(actions.ContinuousActions[0], 0, actions.ContinuousActions[1]);
 
@@ -163,6 +194,10 @@ public class player_agent1 : Agent
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!isActive)
+        {
+            return;
+        }
         if (other.gameObject.CompareTag("DieZone")) // 다이존일 경우
         {
             SetReward(-1.0f); 
@@ -179,10 +214,12 @@ public class player_agent1 : Agent
             SetReward(1.5f * rewardzone_count); //도착한 리워드존 개수에 따라 보상
             other.gameObject.SetActive(false);
         }
-        else if (other.gameObject.CompareTag("goal"))
+        else if (other.gameObject.CompareTag("goal_jin"))
         {
             float timeBonus = Mathf.Max(0, (maxEpisodeTime - currentEpisodeTime)); // 남은 시간 계산
             SetReward(5.0f + 0.2f * timeBonus); // 보상 + 시간
+            isActive = false;
+            gameObject.SetActive(false);
             EndEpisode();
         }
 

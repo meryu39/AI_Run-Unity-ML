@@ -37,11 +37,15 @@ TagManager:
   - rewardzone
   - obstacle
   - StartDieZone
+  - User
+  - Undefined
+  - goal_jin
+  - goal_push
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Obstacle
