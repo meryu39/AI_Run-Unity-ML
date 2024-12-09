@@ -176,7 +176,7 @@ public class player_agent1 : Agent
         else if (other.gameObject.CompareTag("rewardzone")) // 리워드존일 경우
         {
             rewardzone_count += 0.1f;
-            SetReward(1.0f * rewardzone_count); //도착한 리워드존 개수에 따라 보상
+            SetReward(1.5f * rewardzone_count); //도착한 리워드존 개수에 따라 보상
             other.gameObject.SetActive(false);
         }
         else if (other.gameObject.CompareTag("goal"))
@@ -194,7 +194,7 @@ public class player_agent1 : Agent
         // 충돌한 객체가 장애물일경우
         if (collision.gameObject.CompareTag("obstacle"))
         {
-            SetReward(-0.3f); // 벽에 부딪히면 패널티
+            SetReward(-0.4f); // 벽에 부딪히면 패널티
         }
     }
 
